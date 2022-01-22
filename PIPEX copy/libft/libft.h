@@ -6,7 +6,7 @@
 /*   By: cyelena <cyelena@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 19:39:51 by cyelena           #+#    #+#             */
-/*   Updated: 2022/01/15 20:20:55 by cyelena          ###   ########.fr       */
+/*   Updated: 2022/01/22 16:06:10 by cyelena          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,6 @@ void	ft_putchar_fd(char c, int fd);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strnstr(const char *big, const char *little, size_t len);
 #endif

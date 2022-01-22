@@ -1,27 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyelena <cyelena@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/15 18:14:41 by cyelena           #+#    #+#             */
-/*   Updated: 2022/01/22 16:01:15 by cyelena          ###   ########.fr       */
+/*   Created: 2022/01/20 14:24:56 by cyelena           #+#    #+#             */
+/*   Updated: 2022/01/20 14:25:04 by cyelena          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "libft.h"
 
-# include <unistd.h>
-# include <fcntl.h>
-# include "libft/libft.h"
-# include <sys/types.h>
-# include <sys/wait.h>
+char	*ft_strnstr(const char *big, const char *little, size_t len)
+{
+	size_t	i;
+	size_t	j;
 
-void	child_process(char **argv, char **envp, int *fd);
-void	child2_process(char **argv, char **envp, int *fd);
-char	*ft_path(char *cmd, char **envp);
-void	ft_cmd(char *argv, char **envp);
-void	ft_error(int a);
-#endif
+	i = 0;
+	if (!little[i])
+		return ((char *)big);
+	while (big[i])
+	{
+		j = 0;
+		while (big[i + j] == little[j] && (i + j) < len)
+		{
+			if (!big[i + j] && !little[j])
+				return ((char *)big + i);
+			j++;
+		}
+		if (!little[j])
+			return ((char *)big + i);
+		i++;
+	}
+	return (0);
+}

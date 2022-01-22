@@ -1,27 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyelena <cyelena@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/15 18:14:41 by cyelena           #+#    #+#             */
-/*   Updated: 2022/01/22 16:01:15 by cyelena          ###   ########.fr       */
+/*   Created: 2022/01/22 12:46:53 by cyelena           #+#    #+#             */
+/*   Updated: 2022/01/22 12:47:00 by cyelena          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "libft.h"
 
-# include <unistd.h>
-# include <fcntl.h>
-# include "libft/libft.h"
-# include <sys/types.h>
-# include <sys/wait.h>
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*s;
+	int		i;
+	int		k;
 
-void	child_process(char **argv, char **envp, int *fd);
-void	child2_process(char **argv, char **envp, int *fd);
-char	*ft_path(char *cmd, char **envp);
-void	ft_cmd(char *argv, char **envp);
-void	ft_error(int a);
-#endif
+	k = 0;
+	i = 0;
+	if (!s1 || !s2)
+		return (0);
+	s = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(const char));
+	if (!s)
+		return (0);
+	while (s1[i])
+	{
+		s[i] = s1[i];
+		i++;
+	}
+	while (s2[k])
+	{
+		s[i] = s2[k];
+		i++;
+		k++;
+	}
+	s[i] = '\0';
+	return (s);
+}
