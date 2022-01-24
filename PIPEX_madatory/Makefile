@@ -5,47 +5,38 @@
 #                                                     +:+ +:+         +:+      #
 #    By: cyelena <cyelena@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/01/22 13:49:12 by cyelena           #+#    #+#              #
-#    Updated: 2022/01/22 15:54:53 by cyelena          ###   ########.fr        #
+#    Created: 2022/01/24 16:57:07 by cyelena           #+#    #+#              #
+#    Updated: 2022/01/24 17:27:44 by cyelena          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libft.a
-
-SRCS =	ft_strlen.c ft_strlcpy.c \
-		ft_strnstr.c ft_strdup.c\
-		ft_substr.c ft_strjoin.c ft_split.c\
-		ft_putchar_fd.c ft_putstr_fd.c 
-HEAD = libft.h
-
-OBJ = ${patsubst %.c,%.o,$(SRCS)}
-
-D_FILES = ${patsubst %.c,%.d,$(SRCS)}
-
+Name = pipex
+SRCS_Mandatory = pipex.c utils.c
+OBJ = ${patsubst %.c,%.o,$(SRCS_Mandatory)}
+HEAD = pipex.h
 CC = gcc
 FLAGS = -Wall -Werror -Wextra
 OPTFLAGS = -O2
 RM = rm -f
 
-all: ${NAME}
+all:	$(Name)
+	printf "\n\t\033[92m \xE2\x9C\x94 \xF0\x9F\x98\x8A complied! \n\t\033[92m\n\n "
 
-${NAME}: ${OBJ}
-	ar rcs ${NAME} $?
-	
-${OBJ} : ${HEAD} Makefile
-
-%.o : %.c
-	${CC} ${FLAGS} ${OPTFLAGS} -c $< -o $@ -MMD
-		
-include ${wildcard ${D_FILES}}
-
+$(Name):	libft/libft.a $(OBJ)
+	gcc -o $(Name) $(OBJ) libft/libft.a
+%.o : %.c $(HEAD) Makefile	
+	cc $(FLAGS) $(OPTFLAGS) -c $< -o $@ 
+libft/libft.a:
+	make -C libft
 clean:
-	${RM} ${OBJ} ${D_FILES} 
+	$(RM) $(OBJ) 
+	make -C libft clean
 
 
 fclean: clean 
-	${RM} ${NAME}
+	$(RM) $(NAME)
+	$(RM) libft/libft.a
 
 re: fclean all
 
-.PHONY: all clean fclean re 
+.PHONY: all clean fclean re 	
