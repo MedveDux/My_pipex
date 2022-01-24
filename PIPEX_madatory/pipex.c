@@ -6,7 +6,7 @@
 /*   By: cyelena <cyelena@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 18:13:15 by cyelena           #+#    #+#             */
-/*   Updated: 2022/01/24 17:20:17 by cyelena          ###   ########.fr       */
+/*   Updated: 2022/01/24 17:50:57 by cyelena          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void	child2_process(char **argv, char **envp, int *fd)
 
 int	main(int argc, char **argv, char **envp)
 {
-	int	fd[2];
-	int	fork1;
-	int	fork2;
+	int		fd[2];
+	pid_t	fork1;
+	pid_t	fork2;
 
 	if (argc == 5)
 	{
