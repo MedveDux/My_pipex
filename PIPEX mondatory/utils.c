@@ -6,7 +6,7 @@
 /*   By: cyelena <cyelena@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 18:16:22 by cyelena           #+#    #+#             */
-/*   Updated: 2022/01/22 16:24:41 by cyelena          ###   ########.fr       */
+/*   Updated: 2022/01/24 13:39:55 by cyelena          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ char	*ft_path(char *cmd, char **envp)
 
 	i = 0;
 	while (ft_strnstr(envp[i], "PATH", 4) == 0)
-	{
 		i++;
-	}
 	paths = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (paths[i])

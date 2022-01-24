@@ -6,7 +6,7 @@
 /*   By: cyelena <cyelena@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 18:13:15 by cyelena           #+#    #+#             */
-/*   Updated: 2022/01/22 16:16:55 by cyelena          ###   ########.fr       */
+/*   Updated: 2022/01/24 13:47:38 by cyelena          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	child_process(char **argv, char **envp, int *fd)
 	intput = open(argv[1], O_RDONLY, 0777);
 	if (intput == -1)
 		ft_error(1);
-	dup2(fd[1], STDOUT_FILENO);
 	dup2(intput, STDIN_FILENO);
+	dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
 	ft_cmd(argv[2], envp);
 }
@@ -50,18 +50,20 @@ int	main(int argc, char **argv, char **envp)
 			ft_error(2);
 		fork1 = fork();
 		if (fork1 == -1)
-			ft_error(1);//perror return 1
+			ft_error(1);
+			//perror return 1
 		if (fork1 == 0)
 			child_process(argv, envp, fd);
 		fork2 = fork();
 		if (fork2 == -1)
-			ft_error(1);//perror return 1
+			ft_error(1);
+			//perror return 1
 		if (fork2 == 0)
 			child2_process(argv, envp, fd);
+		//close(fd[0]);
+		close(fd[1]);
 		waitpid(fork1, NULL, 0);
 		waitpid(fork2, NULL, 0);
-		close(fd[0]);
-		close(fd[1]);
 	}
 	else
 		ft_error(1);
