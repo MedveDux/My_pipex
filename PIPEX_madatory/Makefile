@@ -6,7 +6,7 @@
 #    By: cyelena <cyelena@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/24 16:57:07 by cyelena           #+#    #+#              #
-#    Updated: 2022/01/24 17:27:44 by cyelena          ###   ########.fr        #
+#    Updated: 2022/01/24 17:43:42 by cyelena          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ clean:
 
 
 fclean: clean 
-	$(RM) $(NAME)
+	$(RM) $(Name)
 	$(RM) libft/libft.a
 
 re: fclean all
