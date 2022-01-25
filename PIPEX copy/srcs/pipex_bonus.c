@@ -6,36 +6,34 @@
 /*   By: cyelena <cyelena@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 18:13:15 by cyelena           #+#    #+#             */
-/*   Updated: 2022/01/24 17:54:31 by cyelena          ###   ########.fr       */
+/*   Updated: 2022/01/25 18:45:50 by cyelena          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../includes/pipex.h"
 
-void	child_process(char **argv, char **envp, int *fd)
+void	child_process(char *argv, char **envp)
 {
-	int	intput;
+	int		fd[2];
+	pid_t	fork1;
 
-	intput = open(argv[1], O_RDONLY, 0777);
-	if (intput == -1)
+	if (pipe(fd) == -1)
 		ft_error(1);
-	dup2(intput, STDIN_FILENO);
-	dup2(fd[1], STDOUT_FILENO);
-	close(fd[0]);
-	ft_cmd(argv[2], envp);
-}
-
-void	child2_process(char **argv, char **envp, int *fd)
-{
-	int	output;
-
-	output = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (output == -1)
+	fork1 = fork();
+	if (fork1 == -1)
 		ft_error(1);
-	dup2(fd[0], STDIN_FILENO);
-	dup2(output, STDOUT_FILENO);
-	close(fd[1]);
-	ft_cmd(argv[3], envp);
+	if (fork1 == 0)
+	{
+		close (fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		ft_cmd(argv, envp);
+	}
+	else
+	{
+		waitpid(pid, NULL, 0);
+		dup2(fd[0], STDIN_FILENO);
+		close (fd[1]);
+	}
 }
 
 void	ft_here_doc(char *limiter, int argc)
@@ -54,18 +52,27 @@ void	ft_here_doc(char *limiter, int argc)
 	if (fork1 == 0)
 	{
 		close(fd[0]);
-		while (/* condition */)
+		while (ft_gnl(&line))
 		{
-			/* code */
+			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+				exit (EXIT_SUCCESS);
+			write (fd[1], line, ft_strlen(line));
 		}
-		
+	}
+	else
+	{
+		wait (NULL);
+		close(fd[1]);
+		dup2(fd[0], STDIN_FILENO);
 	}
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	int	i;
-	
+	int	outfile;
+	int	infile;
+
 	if (argc >= 5)
 	{
 		if (ft_strncmp(argv[1], "here_doc", 8) == 0)
@@ -73,7 +80,17 @@ int	main(int argc, char **argv, char **envp)
 			i = 3;
 			ft_here_doc(argv[2], argc);
 		}
+		else
+		{
+			i = 2;
+			infile = ft_file(argv[1], 2);
+			outfile = ft_file(argv[argc - 1], 2);
+			dup2(infile, STDIN_FILENO);
+		}
+		while (i < argc - 2)
+			child_process(argv[i++], envp);
+		dup2(outfile, STDOUT_FILENO);
+		ft_cmd(argv[argc - 2], envp);
 	}
-	else
-		ft_error(1);
+	ft_error(1);
 }

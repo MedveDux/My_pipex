@@ -6,11 +6,11 @@
 /*   By: cyelena <cyelena@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 18:13:15 by cyelena           #+#    #+#             */
-/*   Updated: 2022/01/24 17:49:24 by cyelena          ###   ########.fr       */
+/*   Updated: 2022/01/25 15:26:53 by cyelena          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../includes/pipex.h"
 
 void	child_process(char **argv, char **envp, int *fd)
 {

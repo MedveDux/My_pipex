@@ -6,7 +6,7 @@
 #    By: cyelena <cyelena@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/22 13:49:12 by cyelena           #+#    #+#              #
-#    Updated: 2022/01/24 17:21:34 by cyelena          ###   ########.fr        #
+#    Updated: 2022/01/25 15:05:19 by cyelena          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,15 +21,15 @@ HEAD = libft.h
 OBJ = ${patsubst %.c,%.o,$(SRCS)}
 
 
-CC = gcc
+CC = @gcc
 FLAGS = -Wall -Werror -Wextra
 OPTFLAGS = -O2
-RM = rm -f
+RM = @rm -f
 
 all: ${NAME}
 
 ${NAME}: ${OBJ}
-	ar rcs ${NAME} $?
+	@ar rcs ${NAME} $?
 	
 ${OBJ} : ${HEAD} Makefile
 
@@ -46,4 +46,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re 
+.PHONY: all clean fclean re

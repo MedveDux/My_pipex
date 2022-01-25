@@ -6,11 +6,11 @@
 /*   By: cyelena <cyelena@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 18:16:22 by cyelena           #+#    #+#             */
-/*   Updated: 2022/01/24 13:39:55 by cyelena          ###   ########.fr       */
+/*   Updated: 2022/01/25 15:27:03 by cyelena          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../includes/pipex.h"
 
 void	ft_error(int a)
 {
