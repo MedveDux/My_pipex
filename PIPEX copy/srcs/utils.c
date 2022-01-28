@@ -6,7 +6,7 @@
 /*   By: cyelena <cyelena@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 18:16:22 by cyelena           #+#    #+#             */
-/*   Updated: 2022/01/25 15:27:03 by cyelena          ###   ########.fr       */
+/*   Updated: 2022/01/27 16:01:17 by cyelena          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,20 @@ void	ft_error(int a)
 {
 	if (a == 1)
 	{
-		ft_putstr_fd("\033[31mError: Bad arguments", 2);
-		ft_putstr_fd("\033[31./pipex file1 cmd1 cmd2 file2", 1);
+		perror("\033[31mError fork!");
 	}
 	if (a == 2)
-		ft_putstr_fd("\033[31Error: Bad arguments1232141", 2);
+	{
+		perror("\033[31mError: Bad arguments\n./pipex file1 cmd1 cmd2 file2");
+	}
+	if (a == 3)
+	{
+		perror("\033[31mBad open!");
+	}
+	if (a == 4)
+	{
+		perror("\033[31mBad pipe!");
+	}
 	exit(EXIT_FAILURE);
 }
 
@@ -30,7 +39,7 @@ void	ft_cmd(char *argv, char **envp)
 
 	cmd = ft_split(argv, ' ');
 	if (execve(ft_path(cmd[0], envp), cmd, envp) == -1)
-		ft_error(1);
+		ft_error(2);
 }
 
 char	*ft_path(char *cmd, char **envp)

@@ -6,7 +6,7 @@
 /*   By: cyelena <cyelena@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 18:14:41 by cyelena           #+#    #+#             */
-/*   Updated: 2022/01/25 18:35:47 by cyelena          ###   ########.fr       */
+/*   Updated: 2022/01/28 17:30:42 by cyelena          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,23 @@
 # include "../libft/libft.h"
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <stdio.h>
 
+void	ft_error(int a);
+void	ft_cmd(char *argv, char **envp);
+char	*ft_path(char *cmd, char **envp);
 void	child_process(char **argv, char **envp, int *fd);
 void	child2_process(char **argv, char **envp, int *fd);
-char	*ft_path(char *cmd, char **envp);
-void	ft_cmd(char *argv, char **envp);
-void	ft_error(int a);
-int		ft_gnl(char **line);
-int	ft_file(char *argv, int i);
+
+// void	child_process_bonus(char *argv, char **envp);
+// void	ft_here_doc_bonus(char *limiter, int argc);
+// void	ft_usage_bonus(void);
+// int		ft_file_bonus(char *argv, int i);
+// int		next_line_bonus(char **line);
+// char	*ft_cmd2_bonus(char *cmd, char **envp);
+// void	ft_error_bonus(void);
+// void	ft_cmd_bonus(char *argv, char **envp);
 #endif

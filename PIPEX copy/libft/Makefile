@@ -6,7 +6,7 @@
 #    By: cyelena <cyelena@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/22 13:49:12 by cyelena           #+#    #+#              #
-#    Updated: 2022/01/25 15:05:19 by cyelena          ###   ########.fr        #
+#    Updated: 2022/01/27 14:50:39 by cyelena          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,10 @@ NAME = libft.a
 SRCS =	ft_strlen.c ft_strlcpy.c \
 		ft_strnstr.c ft_strdup.c\
 		ft_substr.c ft_strjoin.c ft_split.c\
-		ft_putchar_fd.c ft_putstr_fd.c 
+		ft_putchar_fd.c ft_putstr_fd.c ft_strncmp.c
 HEAD = libft.h
 
-OBJ = ${patsubst %.c,%.o,$(SRCS)}
+OBJ1 = ${patsubst %.c,%.o,$(SRCS)}
 
 
 CC = @gcc
@@ -28,17 +28,17 @@ RM = @rm -f
 
 all: ${NAME}
 
-${NAME}: ${OBJ}
+${NAME}: ${OBJ1}
 	@ar rcs ${NAME} $?
 	
-${OBJ} : ${HEAD} Makefile
+${OBJ1} : ${HEAD} Makefile
 
 %.o : %.c
 	${CC} ${FLAGS} ${OPTFLAGS} -c $< -o $@ 
 		
 
 clean:
-	${RM} ${OBJ} 
+	${RM} ${OBJ1} 
 
 
 fclean: clean 
