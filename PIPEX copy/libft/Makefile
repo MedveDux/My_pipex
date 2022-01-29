@@ -6,7 +6,7 @@
 #    By: cyelena <cyelena@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/22 13:49:12 by cyelena           #+#    #+#              #
-#    Updated: 2022/01/27 14:50:39 by cyelena          ###   ########.fr        #
+#    Updated: 2022/01/29 16:47:17 by cyelena          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,27 +18,24 @@ SRCS =	ft_strlen.c ft_strlcpy.c \
 		ft_putchar_fd.c ft_putstr_fd.c ft_strncmp.c
 HEAD = libft.h
 
-OBJ1 = ${patsubst %.c,%.o,$(SRCS)}
+OBJ = ${patsubst %.c,%.o,$(SRCS)}
 
 
-CC = @gcc
+CC = gcc
 FLAGS = -Wall -Werror -Wextra
 OPTFLAGS = -O2
-RM = @rm -f
+RM = rm -f
 
 all: ${NAME}
 
-${NAME}: ${OBJ1}
-	@ar rcs ${NAME} $?
-	
-${OBJ1} : ${HEAD} Makefile
+${NAME}: ${OBJ}
+	ar rcs ${NAME} $?
 
-%.o : %.c
+%.o : %.c ${HEAD} Makefile
 	${CC} ${FLAGS} ${OPTFLAGS} -c $< -o $@ 
 		
-
 clean:
-	${RM} ${OBJ1} 
+	${RM} ${OBJ} 
 
 
 fclean: clean 

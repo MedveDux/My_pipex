@@ -1,60 +1,63 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: cyelena <cyelena@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/01/24 16:57:07 by cyelena           #+#    #+#              #
-#    Updated: 2022/01/28 17:59:46 by cyelena          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+SRCS 	= srcs/pipex.c   \
+    srcs/utils.c   \
 
-Name = pipex
+B_SRC	= srcs/pipex_bonus.c   \
+    srcs/utils_bonus.c
 
-SRCS_Mandatory = ./srcs/pipex.c ./srcs/utils.c
+OBJS	= $(SRCS:.c=.o) 
 
-SRCS_Bonus = ./srcs/pipex_bonus.c ./srcs/utils_bonus.c
+B_OBJS	= $(B_SRCS:.c=.o) 
 
-OBJ = $(patsubst %.c,%.o,$(SRCS_Mandatory))
+HEADS	=	includes/pipex.h
 
-OBJ_Bonus = $(patsubst %.c,%.o,$(SRCS_Bonus))
+B_HEADS	=	includes/pipex_bonus.h
 
-HEAD =  ./includes/pipex.h ./libft/libft.h
+LIBNAME	=	libft/libft.a
 
-HEAD_BONUS = ./includes/pipex_bonus.h ./libft/libft.h
+LIB		=	libft
 
-FLAGS = -Wall -Werror -Wextra
+NAME	= pipex
 
-OPTFLAGS = -O2
+GCC		= gcc -g -Wall -Wextra -Werror -MMD
 
-RM = @rm -f
+RM		= rm -f
 
-all:	$(Name)
-	@printf "\n\t\033[92m \xE2\x9C\x94 \xF0\x9F\x98\x8A complied!"
 
-$(Name):	libft/libft.a $(OBJ) $(HEAD)
-	@cc -o $(Name) $(OBJ) libft/libft.a
-#$(Name):	libft/libft.a $(OBJ) 
-#	@gcc -o $(Name) $(OBJ) libft/libft.a
+#%.o:	%.c $(HEADS) $(B_HEADS) Makefile
+%.o:	%.c Makefile
+	$(GCC) -c $< -o $@
 
-#%.o	: %.c $(HEAD) $(HEAD_BONUS) Makefile	
-#	@cc $(FLAGS) $(OPTFLAGS) -c $< -o $@ 
+#$(NAME):	$(HEADS) $(OBJS) $(LIBNAME)
+$(NAME):	$(OBJS) $(LIBNAME)
+	$(GCC) $(OBJS) $(LIBNAME) -o $(NAME)
 
-bonus: libft/libft.a $(OBJ_Bonus) $(HEAD_BONUS)
-	@cc -o $(Name) $(OBJ_Bonus)  libft/libft.a
+all:	$(NAME)
 
-libft/libft.a: xz
-	@make -C libft
+$(LIBNAME):	lib
+
+lib:	
+	@$(MAKE) -C $(LIB)
+
+#bonus:	$(B_HEADS) $(B_OBJS) $(LIBNAME)
+#	$(GCC) $(B_OBJS) $(LIBNAME) -o $(NAME)
+
+#bonus:	includes/pipex_bonus.h srcs/pipex_bonus.o srcs/utils_bonus.o libft/libft.a
+#bonus:	$(B_HEADS) $(B_OBJS) $(LIBNAME)
+bonus:	$(B_OBJS) $(LIBNAME)
+	$(GCC) srcs/pipex_bonus.o srcs/utils_bonus.o $(LIBNAME) -o $(NAME)
+#	gcc -g -Wall -Wextra -Werror -MMD srcs/pipex_bonus.o srcs/utils_bonus.o libft/libft.a -o pipex
 
 clean:
-	$(RM) $(OBJ) $(OBJ_Bonus)
-	@make -C libft clean
-	@rm -f ./libft/libft.a
+	@$(MAKE) -C $(LIB) clean
+	$(RM) $(OBJS)
+	$(RM) $(B_OBJS)
 
-fclean: clean 
-	$(RM) $(Name)	
+fclean:	clean
+	@$(MAKE) -C $(LIB) fclean
+	$(RM) $(wildcard srcs/*.d)
+	$(RM) $(NAME)
 
-re: fclean all
+re:	fclean all
 
-.PHONY: all clean fclean re xz bonus
+.PHONY:	all bonus clean fclean re lib
+include ${wildcard srcs/*.d}

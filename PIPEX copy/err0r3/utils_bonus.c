@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyelena <cyelena@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/25 17:48:18 by cyelena           #+#    #+#             */
-/*   Updated: 2022/01/28 15:20:59 by cyelena          ###   ########.fr       */
+/*   Created: 2022/01/29 17:27:01 by cyelena           #+#    #+#             */
+/*   Updated: 2022/01/29 17:32:50 by cyelena          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-int	ft_file_bonus(char *argv, int i)
+int	ft_file(char *argv, int i)
 {
 	int	file;
 
@@ -24,72 +24,42 @@ int	ft_file_bonus(char *argv, int i)
 	else if (i == 2)
 		file = open(argv, O_RDONLY, 0777);
 	if (file == -1)
-		ft_error_bonus(3);
+		ft_error();
 	return (file);
 }
 
-int	ft_gnl_bonus(char **line)
+int	next_line(char **line)
 {
-	char	*buf;
+	char	*buffer;
 	int		i;
 	int		bytes;
 	char	c;
 
 	i = 0;
 	bytes = 0;
-	buf = (char *)malloc(sizeof (char) * 10000);
-	if (!buf)
+	buffer = (char *)malloc(sizeof (char) * 10000);
+	if (!buffer)
 		return (-1);
 	bytes = read(0, &c, 1);
 	while (bytes && (c != '\n') && (c != '\0'))
 	{
-		buf[i] = c;
+		buffer[i] = c;
 		i++;
 		bytes = read(0, &c, 1);
 	}
-	buf[i] = '\n';
-	buf[++i] = '\0';
-	*line = buf;
-	free(buf);
+	buffer[i] = '\n';
+	buffer[++i] = '\0';
+	*line = buffer;
+	free(buffer);
 	return (bytes);
 }
 
-void	ft_error_bonus(int a)
+char	*ft_cmd2(char *cmd, char **envp)
 {
-	if (a == 1)
-	{
-		perror("\033[31mError fork!");
-	}
-	if (a == 2)
-	{
-		perror("\033[31mError: Bad arguments!");
-	}
-	if (a == 3)
-	{
-		perror("\033[31mBad open!");
-	}
-	if (a == 4)
-	{
-		perror("\033[31mBad pipe!");
-	}
-	exit(EXIT_FAILURE);
-}
-
-void	ft_cmd_bonus(char *argv, char **envp)
-{
-	char	**cmd;
-
-	cmd = ft_split(argv, ' ');
-	if (execve(ft_path_bonus(cmd[0], envp), cmd, envp) == -1)
-		ft_error_bonus(2);
-}
-
-char	*ft_path_bonus(char *cmd, char **envp)
-{
-	char	*path;
 	char	**paths;
-	char	*part_path;
+	char	*path;
 	int		i;
+	char	*part_path;
 
 	i = 0;
 	while (ft_strnstr(envp[i], "PATH", 4) == 0)
@@ -106,4 +76,19 @@ char	*ft_path_bonus(char *cmd, char **envp)
 		i++;
 	}
 	return (0);
+}
+
+void	ft_error(void)
+{
+	perror("\033[31mError");
+	exit(EXIT_FAILURE);
+}
+
+void	ft_cmd(char *argv, char **envp)
+{
+	char	**cmd;
+
+	cmd = ft_split(argv, ' ');
+	if (execve(ft_cmd2(cmd[0], envp), cmd, envp) == -1)
+		ft_error();
 }

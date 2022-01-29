@@ -5,52 +5,52 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyelena <cyelena@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/05 10:33:51 by gcollet           #+#    #+#             */
-/*   Updated: 2022/01/28 17:30:07 by cyelena          ###   ########.fr       */
+/*   Created: 2022/01/15 18:13:15 by cyelena           #+#    #+#             */
+/*   Updated: 2022/01/29 20:03:37 by cyelena          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex_bonus.h"
 
-void	child_process(char *argv, char **envp)
+void	child_process_bonus(char *argv, char **envp)
 {
 	int		fd[2];
-	pid_t	pid;
+	pid_t	fork1;
 
 	if (pipe(fd) == -1)
-		ft_error();
-	pid = fork();
-	if (pid == -1)
-		ft_error();
-	if (pid == 0)
+		ft_error_bonus(4);
+	fork1 = fork();
+	if (fork1 == -1)
+		ft_error_bonus(1);
+	if (fork1 == 0)
 	{
-		close(fd[0]);
+		close (fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
-		ft_cmd(argv, envp);
+		ft_cmd_bonus(argv, envp);
 	}
 	else
 	{
-		waitpid(pid, NULL, 0);
+		waitpid(fork1, NULL, 0);
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[1]);
 	}
 }
 
-void	ft_here_doc(char *limiter, int argc)
+void	ft_here_doc_bonus(char *limiter, int argc)
 {
-	pid_t	reader;
+	pid_t	fork1;
 	int		fd[2];
 	char	*line;
 
 	if (argc < 6)
-		ft_usage();
+		ft_error_bonus(2);
 	if (pipe(fd) == -1)
-		ft_error();
-	reader = fork();
-	if (reader == 0)
+		ft_error_bonus(4);
+	fork1 = fork();
+	if (fork1 == 0)
 	{
 		close(fd[0]);
-		while (next_line(&line))
+		while (ft_gnl_bonus(&line))
 		{
 			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 				exit(EXIT_SUCCESS);
@@ -65,38 +65,31 @@ void	ft_here_doc(char *limiter, int argc)
 	}
 }
 
-void	ft_usage(void)
-{
-	ft_putstr_fd("error:./pipex here_doc \
-	<LIMITER> <cmd> <cmd1> <...> file\n", 1);
-	exit(EXIT_SUCCESS);
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	int	i;
-	int	filein;
-	int	fileout;
+	int	outfile;
+	int	infile;
 
 	if (argc >= 5)
 	{
 		if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 		{
 			i = 3;
-			fileout = ft_file(argv[argc - 1], 0);
-			ft_here_doc(argv[2], argc);
+			outfile = ft_file_bonus(argv[argc - 1], 0);
+			ft_here_doc_bonus(argv[2], argc);
 		}
 		else
 		{
 			i = 2;
-			fileout = ft_file(argv[argc - 1], 1);
-			filein = ft_file(argv[1], 2);
-			dup2(filein, STDIN_FILENO);
+			outfile = ft_file_bonus(argv[argc - 1], 1);
+			infile = ft_file_bonus(argv[1], 2);
+			dup2(infile, STDIN_FILENO);
 		}
 		while (i < argc - 2)
-			child_process(argv[i++], envp);
-		dup2(fileout, STDOUT_FILENO);
-		ft_cmd(argv[argc - 2], envp);
+			child_process_bonus(argv[i++], envp);
+		dup2(outfile, STDOUT_FILENO);
+		ft_cmd_bonus(argv[argc - 2], envp);
 	}
-	ft_usage();
+	ft_error_bonus(2);
 }

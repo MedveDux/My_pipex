@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_bonus1.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cyelena <cyelena@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/29 14:23:56 by cyelena           #+#    #+#             */
+/*   Updated: 2022/01/29 17:28:11 by cyelena          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PIPEX_BONUS_H
 # define PIPEX_BONUS_H
 
@@ -11,12 +23,11 @@
 # include <string.h>
 # include <stdio.h>
 
-void	child_process(char *argv, char **envp);
-void	ft_here_doc(char *limiter, int argc);
-void	ft_usage(void);
-int		ft_file(char *argv, int i);
-int		next_line(char **line);
-char	*ft_cmd2(char *cmd, char **envp);
-void	ft_error(void);
-void	ft_cmd(char *argv, char **envp);
+void	child_process_bonus(char *argv, char **envp);
+void	ft_here_doc_bonus(char *limiter, int argc);
+int		ft_file_bonus(char *argv, int i);
+int		ft_gnl_bonus(char **line);
+void	ft_error_bonus(int a);
+void	ft_cmd_bonus(char *argv, char **envp);
+char	*ft_path_bonus(char *cmd, char **envp);
 #endif
